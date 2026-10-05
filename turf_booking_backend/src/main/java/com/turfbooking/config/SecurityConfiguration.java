@@ -19,15 +19,7 @@ import com.turfbooking.security.CustomJwtVerificationFilter;
 
 import lombok.RequiredArgsConstructor;
 
-/*
- * @EnableMethodSecurity added below.
- *
- * Previously this class only had .anyRequest().authenticated() — meaning
- * ANY logged-in user (including a plain Customer) could call ANY endpoint,
- * such as GET /api/users (list every user) or /api/admin/dashboard.
- * @PreAuthorize annotations added to the controllers now depend on this
- * being enabled; without it, they are silently ignored.
- */
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
