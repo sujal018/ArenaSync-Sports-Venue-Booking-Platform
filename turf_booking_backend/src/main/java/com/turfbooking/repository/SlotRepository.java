@@ -16,18 +16,7 @@ import com.turfbooking.enums.SlotStatus;
 
 public interface SlotRepository extends JpaRepository<Slot, Long> {
 
-    /*
-     * DOUBLE-BOOKING FIX
-     * The original BookingServiceImpl.createBooking() did:
-     *   Slot slot = slotRepository.findById(slotId)...
-     *   if (slot.getStatus() != AVAILABLE) throw ...
-     * That read-then-write is a classic race condition: two customers hitting
-     * "book" for the same slot within milliseconds of each other can both pass
-     * the AVAILABLE check before either commits, resulting in a double booking.
-     * PESSIMISTIC_WRITE makes the DB row-lock the slot for the duration of the
-     * transaction, so a second concurrent request blocks until the first
-     * transaction commits (and will then correctly see the slot as taken).
-     */
+  
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT s FROM Slot s WHERE s.id = :id")
     Optional<Slot> findByIdForUpdate(@Param("id") Long id);
