@@ -109,13 +109,7 @@ public class BookingServiceImpl implements BookingService {
 				throw new IllegalArgumentException("Slot already booked or blocked.");
 			}
 
-			/*
-			 * Mark the slot BOOKED right now, inside this same transaction. The original
-			 * code left the slot AVAILABLE until payment was verified, so a second customer
-			 * could browse and book the same slot while the first customer's payment was
-			 * still in progress. If the payment fails or the booking is cancelled,
-			 * cancelBooking() already reverts the slot back to AVAILABLE.
-			 */
+	
 			slot.setStatus(SlotStatus.BOOKED);
 			slotRepository.save(slot);
 
