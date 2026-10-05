@@ -47,16 +47,6 @@ public class UserServiceImpl implements UserService {
 			throw new ResourceAlreadyExistsException("PhoneNumber  already registered.");
 		}
 
-		/*
-		 * SECURITY FIX: /api/users/register is a PUBLIC endpoint (no auth required).
-		 * The original code did modelMapper.map(requestDto, User.class), which copied
-		 * requestDto.role directly onto the entity. Since UserRole allows ADMIN, any
-		 * anonymous visitor could POST {"role":"ADMIN", ...} and self-register as an
-		 * administrator. Public self-registration must never be trusted to assign a
-		 * privileged role — only CUSTOMER or OWNER are allowed here. ADMIN accounts
-		 * must be created another way (seeded directly in the DB, or via a separate
-		 * endpoint restricted to hasRole('ADMIN')).
-		 */
 		if (requestDto.getRole() == com.turfbooking.enums.UserRole.ADMIN) {
 			throw new IllegalArgumentException(
 					"Cannot self-register as ADMIN. Admin accounts must be created by an existing admin.");
